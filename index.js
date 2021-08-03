@@ -162,7 +162,7 @@ client.on('messageCreate', async (message) => {
     client.commands.get('reassure').execute(message);
   } else if (message.channel.id === '871833016580833280' && !message.author.bot) {
     const content = message.content.split(':');
-    if (content.length != 2) {
+    if (content.length < 2) {
       message.delete();
     } else {
       const thread = await message.channel.threads.create({
