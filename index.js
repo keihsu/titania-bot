@@ -171,7 +171,7 @@ client.on('messageCreate', async (message) => {
         reason: content[1],
       });
       await thread.members.add(message.author.id);
-      thread.send(`[Details] ${message.content}`);
+      thread.send(`[Details] ${message.content}\n<@&846923906299854848> <@&847382349628309514>`);
       await message.channel.messages.fetch({limit: 2}).then(messages => {
         message.channel.bulkDelete(messages);
       });
