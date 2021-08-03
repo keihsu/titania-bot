@@ -3,9 +3,11 @@ require('dotenv').config();
 const { Client } = require('discord.js');
 const client = new Client({
   partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
+  intents: ['GUILDS', 'GUILD_MESSAGES', 'GUILD_BANS', 'GUILD_EMOJIS_AND_STICKERS', 'GUILD_INTEGRATIONS', 'GUILD_WEBHOOKS', 'GUILD_INVITES', 'GUILD_VOICE_STATES', 'GUILD_PRESENCES', 'GUILD_MESSAGES', 'GUILD_MESSAGE_REACTIONS', 'GUILD_MESSAGE_REACTIONS', 'GUILD_MESSAGE_TYPING', 'GUILD_MESSAGE_TYPING', 'DIRECT_MESSAGES', 'DIRECT_MESSAGE_REACTIONS', 'DIRECT_MESSAGE_TYPING']
 });
 const Database = require("@replit/database")
 const Discord = require('discord.js');
+const config= require('./config.js');
 const prefix = '!';
 const fs = require('fs');
 client.commands = new Discord.Collection();
@@ -37,7 +39,7 @@ const getRoleId = (reaction) => {
     }
     if (reaction.emoji.name === '🫒') {
       return '846903545144016946';
-    } 
+    }
   }
   else if(reaction.message.id === '847764027975008256') {
    if (reaction.emoji.name === '🐴') {
@@ -51,31 +53,31 @@ const getRoleId = (reaction) => {
     }
     if (reaction.emoji.name === '🐲') {
       return '847765042971148288';
-    } 
+    }
     if (reaction.emoji.name === '🗓️') {
       return '847767135853084692';
     }
     if (reaction.emoji.name === '🗺️') {
       return '847767252689616929';
-    } 
+    }
     if (reaction.emoji.name === '⌛') {
       return '847767299615490078';
     }
     if (reaction.emoji.name === '⚔️') {
       return '847767413822717962';
-    } 
+    }
     if (reaction.emoji.name === '🌋') {
       return '847767454683758603';
     }
     if (reaction.emoji.name === '🎖️') {
       return '847767562535174145';
-    } 
+    }
     if (reaction.emoji.name === '💀') {
       return '847767595859443763';
     }
     if (reaction.emoji.name === '☠️') {
       return '847767676176039947';
-    } 
+    }
     if (reaction.emoji.name === '🪦') {
       return '847767727166324747';
     }
@@ -97,7 +99,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
     }
   }
 
-  
+
 
   var roleId = getRoleId(reaction);
   if (roleId) {
@@ -141,12 +143,12 @@ client.on('messageReactionRemove', async (reaction, user) => {
         memberTarget.roles.remove(memberTarget._roles[i]);
       }
       // memberTarget.roles.add(guestRole);
-    } 
-  } 
- 
+    }
+  }
+
 });
 
-client.on('message', async (message) => {
+client.on('messageCreate', async (message) => {
   if (message.channel.id === '847944722387435540'){
     const content = message.content.split(/\s+/);
     const firstWord = content.shift().toLowerCase();
@@ -158,14 +160,22 @@ client.on('message', async (message) => {
     }
   } else if (message.channel.id === '848708945970593842' && !message.author.bot) {
     client.commands.get('reassure').execute(message);
-  // } else if (message.channel.id === '871833016580833280' && !message.author.bot) {
-  //   const thread = await message.channel.threads.create({
-  //     name: 'test',
-  //     autoArchiveDuration: 60,
-  //     reason: 'some reason',
-  //   });
-  //   await thread.members.add(messageauthor.id);
-  //   thread.send('test thread created');
+  } else if (message.channel.id === '871833016580833280' && !message.author.bot) {
+    const content = message.content.split(':');
+    if (content.length != 2) {
+      message.delete();
+    } else {
+      const thread = await message.channel.threads.create({
+        name: content[0],
+        autoArchiveDuration: 4320,
+        reason: content[1],
+      });
+      await thread.members.add(message.author.id);
+      thread.send(`[Details] ${message.content}`);
+      await message.channel.messages.fetch({limit: 2}).then(messages => {
+        message.channel.bulkDelete(messages);
+      });
+    }
   }
 
   if (!message.content.startsWith(prefix) || message.author.bot) return;
@@ -193,4 +203,4 @@ client.on('message', async (message) => {
 });
 
 
-client.login(process.env.DISCORD_TOKEN);
+client.login(config.DISCORD_TOKEN);
