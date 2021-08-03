@@ -7,7 +7,7 @@ const client = new Client({
 });
 const Database = require("@replit/database")
 const Discord = require('discord.js');
-const config= require('./config.js');
+// const config= require('./config.js');
 const prefix = '!';
 const fs = require('fs');
 client.commands = new Discord.Collection();
@@ -203,4 +203,4 @@ client.on('messageCreate', async (message) => {
 });
 
 
-client.login(config.DISCORD_TOKEN);
+client.login(process.env.DISCORD_TOKEN);
