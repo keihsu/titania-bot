@@ -84,6 +84,19 @@ const getRoleId = (reaction) => {
     if (reaction.emoji.name === '🎉') {
       return '863978831140356136';
     }
+  } else if (reaction.message.id === '875095805785178162') {
+    if (reaction.emoji.name === '🎉') {
+      return '863978831140356136';
+    }
+    if (reaction.emoji.name === '🏡') {
+      return '875096402898878504';
+    }
+    if (reaction.emoji.name === '📺') {
+      return '875096482083115038';
+    }
+    if (reaction.emoji.name === '🔞') {
+      return '871607200257298462';
+    }
   }
 }
 
