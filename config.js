@@ -1,1 +1,0 @@
-exports.DISCORD_TOKEN = "ODQ3NjIxOTQyMzI4Mjk1NDI1.YLAvcw.mydw9yfRmSs6mjf_DGpPURCu-pk";
